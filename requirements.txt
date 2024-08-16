@@ -15,4 +15,11 @@ SQLAlchemy
 psycopg2-binary
 Flask-SQLAlchemy
 flask-migrate
+Flask
+Flask-Login
+Flask-SQLAlchemy
+Flask-WTF
+SQLAlchemy
+Werkzeug
+WTForms
 

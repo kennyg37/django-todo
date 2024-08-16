@@ -2,7 +2,23 @@
 
 {% block content %}
 
-<!-- Todo bar -->
+<!-- Top Navigation Bar -->
+<div class="topnav">
+    {% if session.logged_in %}
+        <a href="/logout/">Logout</a>
+    {% else %}
+        <a href="/login/">Login</a>
+        <a href="/register">Sign up</a>
+    {% endif %}
+</div>
+<hr>
+
+<!-- Welcome Message -->
+{% if session.logged_in %}
+    <h5>Welcome, {{ session.username }}</h5>
+{% endif %}
+
+<!-- Todo Bar -->
 <form action="/task" method="post">
   <div class="input-group mb-3">
     <input type="text" class="form-control" name="content" placeholder="What do you want to do today?">
@@ -12,57 +28,45 @@
   </div>
 </form>
 
-
-<!-- Main table -->
+<!-- Main Table -->
 <table class="table-hover">
   {% for task in tasks %}
   <tr>
-
     <td>
         <input type="checkbox" id="{{ task.id }}" name="content" {% if task.done %} checked {% endif %}>
     </td>
-    
     <td class="content task">
       <label for="{{ task.id }}" class="{% if task.done %} done {% endif %}">{{ task.content }}</label>
     </td>
-
-    <td align="right" >
+    <td align="right">
       <span><a data-toggle="modal" class="edit" href="#edit_modal_{{ task.id }}">Edit</a></span>
     </td>
-
     <td align="right">
       <span><a href="/delete/{{ task.id }}"><button type="button" class="btn btn-primary">X</button></a></span>
     </td>
 
     <!-- Edit Modal -->
     <form action="/edit" method="post">
-
       <div class="modal fade" id="edit_modal_{{task.id}}" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
-
             <div class="modal-header">
               <h5 class="modal-title">Edit Task</h5>
               <input name="task_id" type="hidden" value="{{task.id}}">
             </div>
-
             <div class="modal-body">
               <div class="input-group input-group-sm mb-3">
                 <input type="text" class="form-control" aria-label="Small" name="edit_text" aria-describedby="inputGroup-sizing-sm" value="{{ task.content }}">
               </div>
             </div>
-
             <div class="modal-footer">
               <input type="submit" class="btn btn-primary" value="Ok">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
-
           </div>
         </div>
       </div>
-
     </form>
-
   </tr>
   {% endfor %}
 </table>
@@ -81,9 +85,7 @@
   </tbody>
 </table>
 
-
 <script type="text/javascript">
-
 const count = {{ tasks|length }};
 
 $(function() {
@@ -99,8 +101,6 @@ $(function() {
     });
   });
 });
-
 </script>
 
-
-{% endblock %}
+{% endblock content %}
